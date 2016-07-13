@@ -23,24 +23,33 @@ class Book: Comparable, Hashable {
     
     
     //MARK: - Stored properties
-    let authors: String
+    let authors: [String]
     let imageUrl: NSURL
     let pdfUrl: NSURL
     let tags: [Tag]
     let title: String
+    var isFavorite: Bool
     
     
     
     
     //MARK: - INIT
     
-    init (authors: String, imageUrl: NSURL, pdfUrl: NSURL, tags: [Tag], title: String){
+    init (authors: [String], imageUrl: NSURL, pdfUrl: NSURL, tags: [Tag], title: String, isFavorite: Bool){
         self.authors = authors
         self.imageUrl = imageUrl
         self.pdfUrl = pdfUrl
         self.tags = tags
         self.title = title
+        self.isFavorite = isFavorite
     }
+    
+    //MARK: - Utils
+   
+
+    
+    
+    
    //MARK: - hashable
     var hashValue: Int {
         get{

@@ -29,8 +29,8 @@ typealias JSONArray = [JSONDictionary]
 
 
 func decode(book json: JSONDictionary) throws-> Book{
-    //validar dict
     
+    //validar dict
     
     guard let urlString = json["pdf_url"] as? String, pdfUrl = NSURL(string: urlString) else{
         throw BooksError.wrongURLFormatForJSONResource
@@ -42,4 +42,10 @@ func decode(book json: JSONDictionary) throws-> Book{
     let authors = json["authors"] as? String
     let tags    = json["tags"] as? String
     let title   = json["title"] as? String
+    let isFavorite = false
+    let stringsFromTags = tags?.componentsSeparatedByString(", ")
+    let authorsName = authors?.componentsSeparatedByString(", ")
+    
+    return Book(authors: authorsName, imageUrl: imageUrl, pdfUrl: pdfUrl, tags: stringsFromTags, title: title, isFavorite: isFavorite)
+    
 }
