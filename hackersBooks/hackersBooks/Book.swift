@@ -23,25 +23,35 @@ class Book: Comparable, Hashable {
     
     
     //MARK: - Stored properties
-    let authors: [String]
+    let authors: String
     let imageUrl: NSURL
     let pdfUrl: NSURL
-    let tags: [Tag]
+    let tags: [String]
     let title: String
-    var isFavorite: Bool
     
+    var photo : UIImage{
+        get{
+            return UIImage(data: NSData(contentsOfURL: self.imageUrl)!)!
+        }
+    }
+    
+    var pdf : NSData?{
+        get{
+            return NSData(contentsOfURL: self.pdfUrl)
+        }
+    }
     
     
     
     //MARK: - INIT
     
-    init (authors: [String], imageUrl: NSURL, pdfUrl: NSURL, tags: [Tag], title: String, isFavorite: Bool){
+    init (authors: String, imageUrl: NSURL, pdfUrl: NSURL, tags: [String], title: String){
         self.authors = authors
         self.imageUrl = imageUrl
         self.pdfUrl = pdfUrl
         self.tags = tags
         self.title = title
-        self.isFavorite = isFavorite
+        
     }
     
     //MARK: - Utils

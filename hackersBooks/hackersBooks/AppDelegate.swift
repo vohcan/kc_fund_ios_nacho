@@ -15,9 +15,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-       // window = UIWindow(frame: UIScreen.mainScreen().bounds)
+       
+        //crear instancia de model
+        /*
+         {
+         "authors": "Scott Chacon, Ben Straub",
+         "image_url": "http://hackershelf.com/media/cache/b4/24/b42409de128aa7f1c9abbbfa549914de.jpg",
+         "pdf_url": "https://progit2.s3.amazonaws.com/en/2015-03-06-439c2/progit-en.376.pdf",
+         "tags": "version control, git",
+         "title": "Pro Git"
+         }
+         
+         */
         
-        //window?.makeKeyAndVisible()
+        
+        let model = Book (authors:"Scott Chacon, Ben Straub", imageUrl: NSURL(string: "http://hackershelf.com/media/cache/b4/24/b42409de128aa7f1c9abbbfa549914de.jpg" )!, pdfUrl: NSURL(string:"https://progit2.s3.amazonaws.com/en/2015-03-06-439c2/progit-en.376.pdf")!, tags: ["version control", "git"], title: "Pro Git")
+        
+        
+        //crear window
+        
+        window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        
+        //crear un vc
+        let vc = BookViewController(model: model)
+        
+        //empotrar en navigation
+        
+        let nav = UINavigationController(rootViewController: vc)
+        
+        //asignar nav como rootVc
+        
+        window?.rootViewController = nav
+        
+        //hacer visible la window
+        
+        window?.makeKeyAndVisible()
+        
+        
         return true
         
         

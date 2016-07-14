@@ -31,21 +31,47 @@ typealias JSONArray = [JSONDictionary]
 func decode(book json: JSONDictionary) throws-> Book{
     
     //validar dict
-    
-    guard let urlString = json["pdf_url"] as? String, pdfUrl = NSURL(string: urlString) else{
-        throw BooksError.wrongURLFormatForJSONResource
-    }
-    guard let imageFile = json["image_url"] as? String, imageUrl = NSURL(string: imageFile) else{
-        throw BooksError.wrongURLFormatForJSONResource
+    guard let authors = json["authors"]as? String else{
+        throw BooksError.wrongJSONFormat
     }
     
-    let authors = json["authors"] as? String
-    let tags    = json["tags"] as? String
+    guard let image_urlString = json["image_url"]as? String,
+        img = NSURL(string: image_urlString)else{
+        throw BooksError.resourcePointedByURLNotReachable
+    }
+    guard let pdf_urlString = json["pdf_url"] as? String,
+        pdf = NSURL(string: pdf_urlString) else{
+        throw BooksError.wrongURLFormatForJSONResource
+    }
+    guard let tagsString = json["tags"]as? String else{
+        throw BooksError.wrongJSONFormat
+    }
+    let tags = tagsToArray(tagsString)
     let title   = json["title"] as? String
-    let isFavorite = false
-    let stringsFromTags = tags?.componentsSeparatedByString(", ")
-    let authorsName = authors?.componentsSeparatedByString(", ")
-    
-    return Book(authors: authorsName, imageUrl: imageUrl, pdfUrl: pdfUrl, tags: stringsFromTags, title: title, isFavorite: isFavorite)
+        return Book(authors: authors, imageUrl: img, pdfUrl: pdf, tags: tags, title: title!)
     
 }
+//MARK: - conversion
+
+func tagsToArray(tagString: String)->[String]{
+    return tagString.componentsSeparatedByString(", ")
+}
+
+
+//MARK: - Loading
+
+func loadFromLocalFile(fileName name: String, bundle: NSBundle = NSBundle.mainBundle()) throws -> JSONArray{
+    if let url = bundle.URLForResource(name),
+        data = NSData(contentsOfURL: url),
+        maybeArray = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers) as? JSONArray,
+        array = maybeArray{
+        
+        return array
+        
+    }else{
+        throw BooksError.jsonParsingError
+    }
+}
+
+
+

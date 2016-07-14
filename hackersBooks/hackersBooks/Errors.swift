@@ -16,5 +16,5 @@ enum BooksError: ErrorType{
     case resourcePointedByURLNotReachable
     case jsonParsingError
     case wrongJSONFormat
-    case milJSONObject
+    case nilJSONObject
 }
